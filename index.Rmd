@@ -73,3 +73,42 @@ ORDER BY SO"
 sqldf(query)
 ```
 
+
+
+
+##AGGREGATION
+Aggregation is grouping different information, essentially 'squashing' them together. This can be done using the GROUP BY command. 
+
+###Example One:
+Find the homerun totals for Babe Ruth. 
+
+```{r}
+query<-"SELECT playerID,sum(HR) FROM Batting 
+WHERE playerID='ruthba01'
+GROUP BY playerID"
+sqldf(query)
+```
+###Example Two:
+Find career homerun totals for all players but list only those with a total of 600 or more, and put in desecending order. 
+
+```{r}
+query<-"SELECT playerID,sum(HR) FROM Batting
+GROUP BY playerID
+HAVING sum(HR)>=600
+ORDER BY sum(HR) DESC"
+sqldf(query)
+```
+
+###Example Three:
+What player have the highest average per season homerun totals? List only those with averages greater than 30, and order from highest to lowest. 
+
+```{r}
+query<-"SELECT playerID, avg(HR) FROM Batting
+GROUP BY playerID
+HAVING avg(HR)>30
+ORDER BY avg(HR) DESC"
+sqldf(query)
+```
+
+
+
