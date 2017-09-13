@@ -111,4 +111,40 @@ sqldf(query)
 ```
 
 
+##Joining
+By using the commands INNER JOIN and ON, tables can be added together to create larger data output options. 
+
+###Example One
+First and last name, along with team, year, and homeruns for Babe Ruth. 
+
+```{r}
+query<-"SELECT nameFIRST,nameLAST,teamID,yearID,HR
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE Batting.playerID='ruthba01'"
+sqldf(query)
+```
+
+###Example Two:
+Find all instances of players getting more than 50 homeruns starting with the greatest number. Include first and last names, team, year, and home runs. 
+
+```{r}
+query<-"SELECT nameFIRST, nameLAST, teamID, yearID, HR
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE HR>50
+ORDER BY HR DESC"
+sqldf(query)
+```
+
+
+###Example Three:
+Find Babe Ruth's homeruns by season, with the team name displayed.
+
+```{r}
+query<-"SELECT playerID,name,Batting.yearID,Batting.HR
+FROM Batting INNER JOIN Teams ON Batting.teamID=Teams.teamID and Batting.yearID=Teams.yearID WHERE playerID='ruthba01'"
+sqldf(query)
+```
+
 
