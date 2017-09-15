@@ -147,4 +147,40 @@ FROM Batting INNER JOIN Teams ON Batting.teamID=Teams.teamID and Batting.yearID=
 sqldf(query)
 ```
 
+###Example Four:
+Babe Ruth: First and last name, team name, year, and homeruns.
+
+```{r}
+query<-"SELECT nameFirst,nameLast,name,Batting.yearID,Batting.HR 
+FROM (Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID) INNER JOIN Teams
+ON Batting.teamID=Teams.teamID AND Batting.yearID=Teams.yearID
+WHERE Batting.playerID='ruthba01'"
+
+sqldf(query)
+```
+###Example Five:
+Find career homerun totals for players who have hit at least 600 homeruns. The highest homeruns should be at the top, while also including first name, last name, and homerun total.
+
+```{r}
+query<-"SELECT nameFirst,nameLast,sum(HR)
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+GROUP BY Batting.playerID
+HAVING sum(HR)>=600
+ORDER BY sum(HR) DESC"
+
+sqldf(query)
+```
+```{r}
+query<-"SELECT nameFirst,nameLast,avg(salary)
+FROM Salaries INNER JOIN Master
+ON Salaries.playerID=Master.playerID
+WHERE nameFirst='Bob'
+GROUP BY Salaries.playerID
+HAVING avg(salary)>1000000
+ORDER BY avg(salary) DESC"
+
+sqldf(query)
+```
 
